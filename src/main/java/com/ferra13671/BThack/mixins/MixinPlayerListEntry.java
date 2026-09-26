@@ -1,0 +1,29 @@
+package com.ferra13671.BThack.mixins;
+
+import com.ferra13671.BThack.api.utils.Mc;
+import com.ferra13671.BThack.managers.Managers;
+import com.mojang.authlib.GameProfile;
+import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.client.util.SkinTextures;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+@Mixin(PlayerListEntry.class)
+public class MixinPlayerListEntry implements Mc {
+
+    @Shadow @Final private GameProfile profile;
+
+    @SuppressWarnings("DataFlowIssue")
+    @Inject(method = "getSkinTextures", at = @At("TAIL"), cancellable = true)
+    private void hookGetSkinTextures(CallbackInfoReturnable<SkinTextures> cir) {
+        if (Managers.CAPE_MANAGER.isEnabled() && profile.getName().equals(mc.player.getGameProfile().getName())) {
+            SkinTextures t = cir.getReturnValue();
+            SkinTextures customCapeTexture = new SkinTextures(t.texture(), t.textureUrl(), Managers.CAPE_MANAGER.getCape().getTexture(), Managers.CAPE_MANAGER.getCape().getTexture(), t.model(), t.secure());
+            cir.setReturnValue(customCapeTexture);
+        }
+    }
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "id": "vanadite",
+  "version": "${minecraft_version}-${bthack_version}",
+  "name": "Vanadite",
+  "description": "Vanadite Client",
+  "authors": [
+    "Valchaa"
+  ],
+  "contact": {
+    "sources": "https://github.com/Ferra13671/BThack/tree/${minecraft_version}",
+    "issues": "https://github.com/Ferra13671/BThack/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/bthack/textures/bthack_icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.ferra13671.BThack.BThack"
+    ],
+    "preLaunch": [
+      "com.ferra13671.BThack.core.updater.BThackUpdater"
+    ],
+    "bthack": []
+  },
+  "mixins": [
+    "bthack.mixins.json"
+  ],
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/xecWXN97s6",
+        "modmenu.github_releases": "https://github.com/Ferra13671/BThack/releases"
+      }
+    }
+  },
+  "accessWidener": "bthack.accesswidener",
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "${minecraft_version}"
+  }
+}

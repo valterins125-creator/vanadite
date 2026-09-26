@@ -1,0 +1,64 @@
+accessWidener	v1	named
+
+#MinecraftClient
+accessible   field net/minecraft/client/MinecraftClient itemUseCooldown I
+
+#Entity
+accessible   field  net/minecraft/entity/Entity onGround Z
+accessible   field  net/minecraft/entity/Entity firstUpdate Z
+accessible   field  net/minecraft/entity/Entity velocity Lnet/minecraft/util/math/Vec3d;
+accessible   field  net/minecraft/entity/Entity dataTracker Lnet/minecraft/entity/data/DataTracker;
+accessible   field  net/minecraft/entity/Entity yaw  F
+accessible   field  net/minecraft/entity/Entity pitch F
+accessible   method  net/minecraft/entity/Entity unsetRemoved ()V
+accessible   method  net/minecraft/entity/Entity getRotationVector (FF)Lnet/minecraft/util/math/Vec3d;
+extendable   method  net/minecraft/entity/Entity discard ()V
+
+#Vec3d
+mutable   field  net/minecraft/util/math/Vec3d x D
+mutable   field  net/minecraft/util/math/Vec3d y D
+mutable   field  net/minecraft/util/math/Vec3d z D
+
+#ClientPlayerEntity
+accessible   field  net/minecraft/client/network/ClientPlayerEntity lastYaw F
+accessible   field  net/minecraft/client/network/ClientPlayerEntity lastPitch F
+accessible   field  net/minecraft/client/network/ClientPlayerEntity lastOnGround Z
+accessible   field  net/minecraft/client/network/ClientPlayerEntity ticksSinceLastPositionPacketSent I # positionUpdateTicks
+
+#LivingEntity
+accessible   field net/minecraft/entity/LivingEntity itemUseTimeLeft I
+
+#PlayerEntity
+accessible   field  net/minecraft/entity/player/PlayerEntity PLAYER_MODEL_PARTS Lnet/minecraft/entity/data/TrackedData;
+
+#ClientPlayerInteractionManager
+accessible   method  net/minecraft/client/network/ClientPlayerInteractionManager syncSelectedSlot ()V
+
+#PalettedContainer
+accessible field net/minecraft/world/chunk/PalettedContainer data Lnet/minecraft/world/chunk/PalettedContainer$Data;
+accessible method net/minecraft/world/chunk/PalettedContainer$Data palette ()Lnet/minecraft/world/chunk/Palette;
+
+#FlowableFluid
+accessible method net/minecraft/fluid/FlowableFluid isFlowBlocked (Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;)Z
+
+#MobSpawnerLogic
+accessible field net/minecraft/block/spawner/MobSpawnerLogic spawnEntry Lnet/minecraft/block/spawner/MobSpawnerEntry;
+accessible field net/minecraft/block/spawner/MobSpawnerLogic spawnDelay I
+
+accessible class net/minecraft/client/render/item/HeldItemRenderer$HandRenderType
+accessible field net/minecraft/client/render/item/HeldItemRenderer$HandRenderType renderMainHand Z
+accessible field net/minecraft/client/render/item/HeldItemRenderer$HandRenderType renderOffHand Z
+
+accessible field net/minecraft/client/render/GameRenderer pool Lnet/minecraft/client/util/Pool;
+
+accessible method net/minecraft/block/CropBlock getPickStack (Lnet/minecraft/world/WorldView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Z)Lnet/minecraft/item/ItemStack;
+
+accessible method net/minecraft/client/gui/DrawContext drawItemBar (Lnet/minecraft/item/ItemStack;II)V
+
+accessible class net/minecraft/client/render/WeatherRendering$Piece
+
+accessible class net/minecraft/client/render/BackgroundRenderer$FogData
+
+accessible class net/minecraft/client/render/RenderPhase$Texturing
+
+accessible method net/minecraft/entity/projectile/ProjectileEntity <init> (Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V

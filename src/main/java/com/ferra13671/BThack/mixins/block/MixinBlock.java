@@ -1,0 +1,71 @@
+package com.ferra13671.BThack.mixins.block;
+
+import com.ferra13671.BThack.core.client.ModuleList;
+import com.ferra13671.BThack.api.utils.Mc;
+import com.ferra13671.BThack.api.utils.datalist.BlockList;
+import com.ferra13671.BThack.api.utils.datalist.DataLists;
+import com.ferra13671.BThack.impl.modules.render.Xray;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.util.math.Direction;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+@Mixin(Block.class)
+public class MixinBlock implements Mc {
+
+    @Inject(at = @At("HEAD"), method = "shouldDrawSide", cancellable = true)
+    private static void onShouldDrawSide(BlockState state, BlockState otherState, Direction side, CallbackInfoReturnable<Boolean> cir) {
+
+        if (Xray.doXray) {
+            BlockList blockList = DataLists.get("Xray", BlockList.class);
+            if (!blockList.values.contains(state.getBlock()))
+                cir.setReturnValue(false);
+            else
+                cir.setReturnValue(true);
+
+            if (!blockList.values.contains(otherState.getBlock()))
+                cir.setReturnValue(false);
+            else
+                cir.setReturnValue(true);
+        }
+    }
+
+    @SuppressWarnings("ConstantValue")
+    @Inject(method = "getVelocityMultiplier", at = @At("HEAD"), cancellable = true)
+    public void modifyGetVelocityMultiplier(CallbackInfoReturnable<Float> cir) {
+        if (ModuleList.noSlow.isEnabled()) {
+            if (ModuleList.noSlow.soulSand.getValue() && (Object) this == Blocks.SOUL_SAND) {
+                cir.setReturnValue(Blocks.DIRT.getVelocityMultiplier());
+            }
+            if (ModuleList.noSlow.slime.getValue() && (Object) this == Blocks.SLIME_BLOCK) {
+                cir.setReturnValue(Blocks.DIRT.getVelocityMultiplier());
+            }
+            if (ModuleList.noSlow.honey.getValue() && (Object) this == Blocks.HONEY_BLOCK) {
+                cir.setReturnValue(Blocks.DIRT.getVelocityMultiplier());
+            }
+        }
+    }
+
+    @SuppressWarnings("UnreachableCode")
+    @Inject(method = "getSlipperiness", at = @At("HEAD"), cancellable = true)
+    public void modifyGetSlipperiness(CallbackInfoReturnable<Float> cir) {
+        Block block = (Block) (Object) this;
+        if (ModuleList.customFriction.isEnabled()) {
+            boolean eq = DataLists.get("CustomFriction", BlockList.class).values.contains(block);
+            if (ModuleList.customFriction.mode.getValue().equals("WhiteList") == eq)
+                cir.setReturnValue(ModuleList.customFriction.friction.getValue().floatValue());
+        }
+        if (ModuleList.noSlow.isEnabled()) {
+            if (ModuleList.noSlow.slime.getValue() && (Object) this == Blocks.SLIME_BLOCK) {
+                cir.setReturnValue(Blocks.DIRT.getSlipperiness());
+            }
+            if (ModuleList.noSlow.honey.getValue() && (Object) this == Blocks.HONEY_BLOCK) {
+                cir.setReturnValue(Blocks.DIRT.getSlipperiness());
+            }
+        }
+    }
+}
